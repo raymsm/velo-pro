@@ -1,0 +1,6 @@
+{
+  "name": "RideFlow: Pro Bike Companion",
+  "description": "A progressive web app for bike riders to track rides, fuel economy, expenses, and navigation with real-time mapping.",
+  "requestFramePermissions": ["geolocation", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

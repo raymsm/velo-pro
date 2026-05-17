@@ -1,0 +1,67 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Phase 3: Primitives
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+    
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Validation Helpers
+    function isValidRide(data) {
+      return data.userId == request.auth.uid
+        && data.startTime is number
+        && data.distance is number
+        && data.path is list
+        && data.path.size() <= 1000 // Limit path size to prevent resource exhaustion
+        && (data.fuelAdded == null || data.fuelAdded is number)
+        && (data.fuelCost == null || data.fuelCost is number)
+        && (data.economy == null || data.economy is number);
+    }
+
+    // --- COLLECTIONS ---
+
+    match /rides/{rideId} {
+      allow get: if isSignedIn() && existing().userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      
+      allow create: if isSignedIn() 
+        && isValidRide(incoming())
+        && isValidId(rideId);
+        
+      allow update: if isOwner(existing().userId)
+        && isValidRide(incoming())
+        && (
+          // Action: Log Fuel
+          incoming().diff(existing()).affectedKeys().hasOnly(['fuelAdded', 'fuelCost', 'economy'])
+        );
+        
+      allow delete: if isOwner(existing().userId);
+    }
+
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+  }
+}

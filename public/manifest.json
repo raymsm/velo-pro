@@ -1,0 +1,17 @@
+{
+  "name": "RideFlow Pro",
+  "short_name": "RideFlow",
+  "description": "Professional Bike Tracking & Economy System",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#facc15",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3198/3198336.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
