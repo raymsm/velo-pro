@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
+import rateLimit from "express-rate-limit";
 
 async function startServer() {
   const app = express();
@@ -9,8 +10,22 @@ async function startServer() {
 
   app.use(express.json());
 
+  const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
+  const spaLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 300,
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
   // Gemini API Route for Smart Insights
-  app.post("/api/insights", async (req, res) => {
+  app.post("/api/insights", apiLimiter, async (req, res) => {
     try {
       const { rides, customPrompt } = req.body;
       const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
@@ -47,7 +62,7 @@ async function startServer() {
   });
 
   // Weather Proxy
-  app.get("/api/weather", async (req, res) => {
+  app.get("/api/weather", apiLimiter, async (req, res) => {
     const { lat, lon } = req.query;
     try {
       const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=temperature_2m,windspeed_10m&models=best_match`);
@@ -67,7 +82,7 @@ async function startServer() {
   } else {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
-    app.get('*', (req, res) => {
+    app.get('*', spaLimiter, (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });
   }
