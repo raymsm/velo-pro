@@ -1,6 +1,6 @@
-# RideFlow: Pro Bike Companion
+# VeloPro: Pro Bike Companion
 
-RideFlow is a comprehensive progressive web application designed for bike enthusiasts. It helps riders track their journeys, manage expenses, monitor fuel economy, and navigate using real-time maps.
+VeloPro is a comprehensive progressive web application designed for bike enthusiasts. It helps riders track their journeys, manage expenses, monitor fuel economy, and navigate using real-time maps.
 
 ## Features
 
