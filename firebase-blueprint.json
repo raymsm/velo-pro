@@ -1,0 +1,44 @@
+{
+  "entities": {
+    "Ride": {
+      "title": "Ride",
+      "description": "A recorded bike ride with path and stats",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "The UID of the rider" },
+        "startTime": { "type": "number", "description": "UTC timestamp of ride start" },
+        "endTime": { "type": "number", "description": "UTC timestamp of ride end" },
+        "distance": { "type": "number", "description": "Distance in km" },
+        "path": { "type": "array", "description": "List of [lat, lng] coordinates" },
+        "stops": { "type": "array", "description": "List of [lat, lng] coordinates where stops occurred" },
+        "fuelAdded": { "type": "number", "description": "Liters of fuel added during or after this trip" },
+        "fuelCost": { "type": "number", "description": "Cost of fuel in local currency" },
+        "parkingLocation": { "type": "array", "description": "[lat, lng] of where the bike was parked" },
+        "economy": { "type": "number", "description": "Calculated efficiency (km/L)" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "startTime", "distance", "path", "createdAt"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Private user information and vehicle details",
+      "type": "object",
+      "properties": {
+        "displayName": { "type": "string" },
+        "fuelCapacity": { "type": "number" },
+        "averageEconomy": { "type": "number" },
+        "preferredCurrency": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/rides/{rideId}": {
+      "schema": "Ride",
+      "description": "Collection of all rides"
+    },
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Private profile data for each user"
+    }
+  }
+}
