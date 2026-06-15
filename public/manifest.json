@@ -1,6 +1,6 @@
 {
-  "name": "RideFlow Pro",
-  "short_name": "RideFlow",
+  "name": "VeloTrax Pro",
+  "short_name": "VeloTrax",
   "description": "Professional Bike Tracking & Economy System",
   "start_url": "/",
   "scope": "/",
@@ -10,13 +10,13 @@
   "theme_color": "#facc15",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/192/3198/3198336.png",
+      "src": "/icon_192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/3198/3198336.png",
+      "src": "/icon_512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

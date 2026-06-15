@@ -1,9 +1,10 @@
-const CACHE_NAME = 'rideflow-v1';
+const CACHE_NAME = 'velotrax-v1';
 const ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/https://cdn-icons-png.flaticon.com/512/3198/3198336.png'
+  '/icon_192.png',
+  '/icon_512.png'
 ];
 
 self.addEventListener('install', (event) => {

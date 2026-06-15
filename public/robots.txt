@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /functions/
+
+Sitemap: https://www.velopro.raymsm.com/sitemap.xml
